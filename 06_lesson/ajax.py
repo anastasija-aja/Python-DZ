@@ -5,12 +5,15 @@ from webdriver_manager.chrome import ChromeDriverManager
 from selenium.webdriver.common.by import By
 from selenium.webdriver.support import expected_conditions as EC
 driver = webdriver.Chrome(service=ChromeService(ChromeDriverManager().install()))
-driver.implicitly_wait(20)
-driver.get("http://uitestingplayground.com/ajax")
-element = WebDriverWait(driver, 10).until(
-        EC.element_to_be_clickable((By.CSS_SELECTOR, "#ajaxButton")))
-element.click()
-content = driver.find_element(By.CSS_SELECTOR, "#content")
-text = content.find_element(By.CSS_SELECTOR, "p.bg-success").text
-print(text)
+driver.implicitly_wait(10)
+driver.get("https://bonigarcia.dev/selenium-webdriver-java/loading-images.html")
+image_locator = (By.CSS_SELECTOR, ".col-12.py-2")
+image_container = WebDriverWait(driver, 10).until(
+    EC.presence_of_all_elements_located(image_locator))
+WebDriverWait(driver, 10).until(
+        EC.visibility_of_element_located((By.CSS_SELECTOR, "#landscape"))
+    )
+third_image = driver.find_element(By.ID, "award")
+src_source = third_image.get_attribute("src")
+print(src_source)
 driver.quit()
